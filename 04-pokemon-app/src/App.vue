@@ -1,11 +1,10 @@
 <template>
-  <Pokemon/>
+  <Pokemon />
 </template>
 
 <script>
 
 import Pokemon from './pages/Pokemon';
-
 
 export default {
   name: 'Pokemon App',
