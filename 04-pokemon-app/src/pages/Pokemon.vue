@@ -1,9 +1,13 @@
 <template>
-  <h1 v-if="!pokemon">Espere por favor...</h1>
+  <h1 v-if="!pokemon">Hold on sec...</h1>
   <div v-else>
-    <h1>¿Quién es este pokemon?</h1>
+    <h1>¿Which Pokemon is this?</h1>
     <PokemonPicture :pokemonId="pokemon.id" :showPokemon="showPokemon" />
     <PokemonOptions :pokemons="pokemons" @selection-pokemon="selectionPokemon" />
+    <div v-if="message">
+      <h2>{{ message }}</h2>
+      <button @click="resetGame">Reset Game</button>
+    </div>
   </div>
 </template>
 
@@ -20,7 +24,8 @@ export default {
     return {
       pokemons: [],
       pokemon: null,
-      showPokemon: false
+      showPokemon: false,
+      message: ''
     }
   },
   methods: {
@@ -30,9 +35,19 @@ export default {
       this.pokemon = this.pokemons[randomPokemon]
     },
     selectionPokemon(selectedPokemon) {
+      this.showPokemon = true
       if (selectedPokemon.id === this.pokemon.id) {
-        this.showPokemon = true
+        this.message = `Yeah you're right`
+      } else {
+        this.message = `Opps, it is not correct, the pokemon is ${this.pokemon.name}`
       }
+    },
+    resetGame() {
+      console.log('RESET GAME')
+      this.message = ''
+      this.showPokemon = false
+      this.pokemon = null
+      this.mixPokemonNames()
     }
   },
   mounted() {
